@@ -1,189 +1,138 @@
-# get-go.sh
+get-go.sh
 
-A bash script to automatically download and install the latest version of Go (Golang) on Linux and macOS systems.
+A lightweight Bash utility for installing Go (Golang) seamlessly on Linux and macOS.
 
-## Features
+✨ Key Highlights
 
-- 🚀 Automatically downloads and installs the latest stable Go version
-- 🎯 Supports custom Go version specification
-- 🌏 China CDN support for users in China
-- 🔄 Force reinstallation option
-- 🏗️ Multi-architecture support (amd64, arm64, 386, ppc64le, s390x, riscv64)
-- 🖥️ Cross-platform support (Linux, macOS)
-- ⚙️ Automatic environment variable setup
-- ✅ Installation verification
+🚀 Installs the most recent stable release of Go automatically
 
-## Prerequisites
+🎯 Allows installing a specific Go version by flag
 
-- `curl` - for downloading Go releases
-- `jq` - for parsing JSON responses
+🌏 Optional China CDN mirror for faster downloads
 
-### Install jq
+🔄 Reinstall even if Go is already present
 
-```bash
-sudo apt update && sudo apt install jq             # Ubuntu/Debian
-sudo yum install jq                                # CentOS/RHEL/Fedora
-sudo dnf install jq                                # CentOS/RHEL/Fedora
-sudo pacman -Sy jq                                 # Arch Linux
-brew install jq                                    # MacOS
-```
+🏗️ Multi-architecture support: amd64, arm64, 386, ppc64le, s390x, riscv64
 
-## Usage
+🖥️ Works across Linux and macOS
 
-### Direct
+⚙️ Automatically configures environment variables
 
-Install the latest stable Go version:
+✅ Verifies installation on completion
 
-```bash
+📦 Requirements
+
+curl → to fetch release files
+
+jq → to parse release JSON
+
+Installing jq
+# Ubuntu/Debian
+sudo apt update && sudo apt install jq  
+
+# CentOS/RHEL/Fedora
+sudo yum install jq  
+# or
+sudo dnf install jq  
+
+# Arch Linux
+sudo pacman -Sy jq  
+
+# macOS
+brew install jq  
+
+🚀 Usage
+Run directly
 sudo ./get-go.sh
-```
-OR
-```bash
-curl -fsSL https://raw.githubusercontent.com/BRAVO68WEB/get-go.sh/refs/heads/master/get-go.sh | sudo bash 
-```
-OR
-```bash
-wget -qO- https://raw.githubusercontent.com/BRAVO68WEB/get-go.sh/refs/heads/master/get-go.sh | sudo bash
-```
 
-### Download & Run
 
-If you prefer to download first and then execute:
+or via curl/wget:
 
-1. Download the script
-```bash
-curl -fsSL -o get-go.sh https://raw.githubusercontent.com/BRAVO68WEB/get-go.sh/refs/heads/master/get-go.sh
-```
+curl -fsSL https://raw.githubusercontent.com/iamriyapatel/get-go.sh/main/get-go.sh | sudo bash
 
-2. Add execute permissions
-```bash
+wget -qO- https://raw.githubusercontent.com/iamriyapatel/get-go.sh/main/get-go.sh | sudo bash
+
+Download first, then execute
+curl -fsSL -o get-go.sh https://raw.githubusercontent.com/iamriyapatel/get-go.sh/main/get-go.sh
 chmod +x get-go.sh
-```
-
-3. Execute the script
-```bash
 sudo ./get-go.sh
-```
 
-### Options
-
-```
+⚙️ Options
 Usage: sudo ./get-go.sh [options]
 
-Options:
   -v, --version   Specify Go version (e.g., 1.21.3)
-  -cn, --china     Use China CDN (golang.google.cn)
-  -f, --override  Force installation even if Go is already installed
-  -h, --help      Show help message
-```
+  -cn, --china    Use China CDN mirror
+  -f, --override  Force reinstall Go
+  -h, --help      Display help
 
-### Examples
+🔧 Examples
 
-**Install a specific Go version:**
-```bash
+Install Go 1.21.3:
+
 sudo ./get-go.sh -v 1.21.3
-```
-OR
-```bash
-curl -fsSL https://raw.githubusercontent.com/BRAVO68WEB/get-go.sh/refs/heads/master/get-go.sh | sudo bash -s -- -v 1.21.3
-```
 
-**Install using China CDN:**
-```bash
+
+Use China CDN:
+
 sudo ./get-go.sh -cn
-```
-OR
-```bash
-curl -fsSL https://raw.githubusercontent.com/BRAVO68WEB/get-go.sh/refs/heads/master/get-go.sh | sudo bash -s -- -cn
-```
 
-**Force reinstall with specific version:**
-```bash
+
+Force reinstall with a chosen version:
+
 sudo ./get-go.sh -v 1.20.5 -f
-```
-OR
-```bash
-curl -fsSL https://raw.githubusercontent.com/BRAVO68WEB/get-go.sh/refs/heads/master/get-go.sh | sudo bash -s -- -v 1.20.5 -f
-```
 
-## What the Script Does
+🔍 How It Works
 
-1. **Validates input parameters** and checks for required dependencies
-2. **Determines the Go version** to install (latest stable or specified version)
-3. **Detects system architecture and OS** automatically
-4. **Downloads the appropriate Go binary** from official sources
-5. **Removes any existing Go installation** from `/usr/local/go`
-6. **Extracts and installs Go** to `/usr/local/go`
-7. **Sets up environment variables** in your shell configuration
-8. **Verifies the installation** by running `go version`
+Validates parameters and dependencies
 
-## Environment Variables
+Detects latest or specified Go version
 
-The script automatically adds these environment variables to your shell configuration:
+Identifies system OS/architecture
 
-- `GOROOT=/usr/local/go` - Go installation directory
-- `GOPATH=$HOME/go` - Go workspace directory
-- `PATH` - Updated to include Go binaries
+Downloads the matching binary
 
-## Supported Platforms
+Removes any old Go installation
 
-### Operating Systems
-- Linux
-- macOS (Darwin)
+Installs Go into /usr/local/go
 
-### Architectures
-- x86_64 (amd64)
-- aarch64 (arm64)
-- i386 (386)
-- ppc64le
-- s390x
-- riscv64
+Adds required environment variables
 
-## Supported Shells
+Confirms installation with go version
 
-The script automatically configures environment variables for:
-- Bash (`.bashrc`)
-- Zsh (`.zshrc`)
+🌍 Environment Setup
 
-For other shells, you'll need to manually add `/usr/local/go/bin` to your PATH.
+Automatically adds:
 
-## Troubleshooting
+GOROOT=/usr/local/go
 
-### Permission Denied
-Make sure to run the script with sudo privileges:
-```bash
-sudo ./get-go.sh
-```
+GOPATH=$HOME/go
 
-### Go Command Not Found After Installation
-Restart your terminal or source your shell configuration:
-```bash
-source ~/.bashrc  # for bash
-source ~/.zshrc   # for zsh
-```
+Updates PATH
 
-### Network Issues in China
-Use the China CDN option:
-```bash
-sudo ./get-go.sh -cn
-```
+Updates .bashrc or .zshrc depending on shell.
 
-### Invalid Version Error
-Ensure you're using the correct version format (x.y.z):
-```bash
-sudo ./get-go.sh -v 1.21.3  # Correct
-```
+🛠️ Troubleshooting
 
-## Security
+Permission denied → Run with sudo
 
-- The script downloads Go directly from official sources (`go.dev` or `golang.google.cn`)
-- All downloads are verified through HTTPS
-- The script validates version formats and checks for file existence before installation
+Go not found → Restart shell or source ~/.bashrc
 
-## Contributing
+Slow downloads in China → Use -cn flag
 
-Feel free to submit issues and pull requests to improve this script.
+Invalid version → Check format (e.g., 1.21.3)
 
-## License
+🔐 Security
 
-This script is provided as-is under the GPL-3.0 License.
+Downloads only from official Go sources (go.dev / golang.google.cn)
+
+HTTPS enforced
+
+Validates inputs before installation
+
+🤝 Contributions
+
+Improvements, bug reports, and feature requests are welcome.
+
+📜 License
+
+Released under GPL-3.0.
